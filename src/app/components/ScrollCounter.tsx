@@ -10,16 +10,30 @@ export default function ScrollCounter() {
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    ScrollTrigger.create({
-      start: "top top",
-      end: "bottom bottom",
-      onUpdate: (self) => {
-        if (counterRef.current) {
-          const progress = Math.round(self.progress * 100);
-          counterRef.current.innerText = progress < 10 ? `0${progress}%` : `${progress}%`;
-        }
-      },
-    });
+    const updateFromWindowScroll = () => {
+      const max = ScrollTrigger.maxScroll(window);
+      const y = window.scrollY;
+      const pct = Math.max(0, Math.min(1, max ? y / max : 0));
+      const progress = Math.round(pct * 100);
+      if (counterRef.current) {
+        counterRef.current.innerText = progress < 10 ? `0${progress}%` : `${progress}%`;
+      }
+    };
+    // Update on every window scroll
+    window.addEventListener("scroll", updateFromWindowScroll, { passive: true });
+
+    // Keep percent accurate on refreshes/resizes (ScrollTrigger can change maxScroll)
+    ScrollTrigger.addEventListener("refresh", updateFromWindowScroll);
+    window.addEventListener("resize", updateFromWindowScroll);
+
+    // Initial paint
+    updateFromWindowScroll();
+
+    return () => {
+      window.removeEventListener("scroll", updateFromWindowScroll);
+      ScrollTrigger.removeEventListener("refresh", updateFromWindowScroll);
+      window.removeEventListener("resize", updateFromWindowScroll);
+    };
   }, []);
 
   return (

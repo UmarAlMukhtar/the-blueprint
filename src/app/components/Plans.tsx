@@ -3,7 +3,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { GraduationCap, User, Calendar } from "lucide-react";
+import { GraduationCap, User, Calendar, Activity } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -12,99 +12,123 @@ if (typeof window !== "undefined") {
 const planData = [
   {
     type: "Academic",
-    title: "B.Tech CSE // Semester 06",
-    detail: "Core focus on Compiler Design and Software Engineering. Researching AI-integrated systems for my Major Project phase.",
-    date: "Current Phase",
-    icon: <GraduationCap className="w-5 h-5" />,
+    title: "B.Tech CSE // Sem 06",
+    detail: "Focusing on Compiler Design & AI-integrated systems for Major Project research.",
+    date: "Current",
+    icon: <GraduationCap className="w-6 h-6" />,
     status: "Execution"
   },
   {
-    type: "Hardware", // Using 'Hardware' for Physical Health
-    title: "Vibe & Vitality Protocol",
-    detail: "Implementing a 4-day strength split and 10k steps daily to maintain peak cognitive performance during long dev sessions.",
+    type: "Hardware",
+    title: "Vibe & Vitality",
+    detail: "4-day strength split & 10k steps to maintain peak cognitive performance.",
     date: "Daily",
-    icon: <User className="w-5 h-5" />,
+    icon: <Activity className="w-6 h-6" />,
     status: "Active"
   },
   {
     type: "Mental",
-    title: "The Stoic Developer",
-    detail: "Practicing 15-min morning mindfulness and 'digital sunsets' at 10 PM to reset my dopamine baseline and reduce burnout.",
-    date: "Mental Health",
-    icon: <div className="w-2 h-2 rounded-full bg-accent animate-ping" />, // Custom animated dot
-    status: "Daily Reset"
+    title: "The Stoic Dev",
+    detail: "15-min mindfulness & digital sunsets at 10 PM to reset dopamine baselines.",
+    date: "Routine",
+    icon: <User className="w-6 h-6" />,
+    status: "Reset"
   },
   {
     type: "Career",
     title: "Industry Alignment",
-    detail: "Transitioning from academic theory to industry-ready builds (Next.js/GSAP/AI) for the 2026 recruitment cycle.",
-    date: "Q3 - Q4 2026",
-    icon: <Calendar className="w-5 h-5" />,
+    detail: "Transitioning to industry-ready builds (Next.js/GSAP/AI) for 2026 recruitment.",
+    date: "Q3 - Q4",
+    icon: <Calendar className="w-6 h-6" />,
     status: "Pre-load"
   }
 ];
 
 export default function Plans() {
-  const container = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const horizontalRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top 75%",
-        toggleActions: "play none none none",
-      }
-    });
+    const horizontalEl = horizontalRef.current;
+    if (!horizontalEl) return;
 
-    tl.from(".plans-header", { x: -50, opacity: 0, duration: 1 })
-      .from(".plan-item", {
-        x: -20,
-        opacity: 0,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.5");
-  }, { scope: container });
+    // Calculate how much we need to move the slider to the left
+    // (Total width of the scrolling container - the width of the screen)
+    const totalWidth = horizontalEl.scrollWidth;
+    const scrollDistance = totalWidth - window.innerWidth;
+
+    gsap.to(horizontalEl, {
+      x: -scrollDistance,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        id: "plans-horizontal",
+        pin: true,           // Locks the section on screen
+        start: "top top",    // Starts when top of section hits top of viewport
+        end: () => `+=${scrollDistance}`, // Duration of the pin matches scroll distance
+        scrub: 1,            // Links movement to scrollbar
+        invalidateOnRefresh: true,
+      },
+    });
+  }, { scope: sectionRef });
 
   return (
-    <section ref={container} className="relative py-32 px-6 md:px-16 bg-background">
-      <div className="max-w-7xl mx-auto">
-        <div className="plans-header mb-20 border-l-2 border-accent pl-6 md:pl-10">
-          <span className="text-accent font-mono text-xs uppercase tracking-[0.4em] block mb-2">/ Life Logic</span>
-          <h3 className="text-5xl md:text-7xl font-bold tracking-tighter uppercase">
-            Trajectory <span className="text-white/10 font-light italic">2026</span>
-          </h3>
-        </div>
+    <section ref={sectionRef} id="plans-section" className="bg-background">
+      <div className="h-screen flex items-center overflow-hidden">
+        
+        {/* Container that moves horizontally */}
+        <div ref={horizontalRef} className="flex flex-nowrap items-center px-[10vw] gap-12">
+          
+          {/* Section Introduction Card */}
+          <div className="w-[300px] md:w-[500px] shrink-0">
+            <div className="border-l-2 border-accent pl-6">
+              <span className="text-accent font-mono text-xs uppercase tracking-[0.4em] block mb-2">/ Life Logic</span>
+              <h3 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase leading-none">
+                TRAJECTORY <br />
+                <span className="text-white/10 font-light italic text-4xl md:text-7xl">PHASE 2026</span>
+              </h3>
+              <p className="mt-6 text-gray-500 font-mono text-xs uppercase tracking-widest animate-pulse">
+                Scroll to explore timeline →
+              </p>
+            </div>
+          </div>
 
-        <div className="space-y-4">
+          {/* Individual Plan Cards */}
           {planData.map((plan, i) => (
             <div 
               key={i} 
-              className="plan-item glass group flex flex-col md:flex-row items-start md:items-center justify-between p-6 md:p-8 rounded-2xl hover:bg-white/5 transition-colors border-l-2 border-transparent hover:border-accent"
+              className="w-[300px] md:w-[400px] shrink-0 glass p-8 md:p-10 rounded-[2.5rem] relative group border-b-2 border-transparent hover:border-accent transition-all duration-500"
             >
-              <div className="flex items-center gap-6 mb-4 md:mb-0">
-                <div className="p-3 bg-white/5 rounded-xl text-accent group-hover:scale-110 transition-transform">
+              <span className="absolute top-6 right-8 text-6xl font-black text-white/[0.03] italic">0{i + 1}</span>
+
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 bg-accent/10 rounded-xl text-accent group-hover:bg-accent group-hover:text-black transition-colors duration-300">
                   {plan.icon}
                 </div>
+                <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">{plan.type}</span>
+              </div>
+
+              <h4 className="text-2xl font-bold mb-4 tracking-tight uppercase group-hover:text-accent transition-colors">{plan.title}</h4>
+              <p className="text-gray-400 text-sm leading-relaxed mb-8">{plan.detail}</p>
+
+              <div className="flex justify-between items-center border-t border-white/5 pt-6">
                 <div>
-                  <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">{plan.type}</span>
-                  <h4 className="text-xl font-bold tracking-tight">{plan.title}</h4>
+                  <p className="text-[10px] font-mono text-accent uppercase tracking-widest">{plan.date}</p>
+                  <p className="text-[9px] font-mono text-gray-600 uppercase italic">{plan.status}</p>
                 </div>
-              </div>
-
-              <div className="md:max-w-md w-full">
-                <p className="text-gray-400 text-sm leading-relaxed">{plan.detail}</p>
-              </div>
-
-              <div className="mt-4 md:mt-0 text-right">
-                <p className="text-[10px] font-mono text-accent uppercase mb-1">{plan.date}</p>
-                <div className="flex items-center gap-2 justify-start md:justify-end">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                  <span className="text-[10px] font-mono text-gray-500 uppercase tracking-tighter">{plan.status}</span>
+                <div className="relative">
+                  <div className="w-2 h-2 rounded-full bg-accent" />
+                  <div className="absolute inset-0 w-2 h-2 rounded-full bg-accent animate-ping" />
                 </div>
               </div>
             </div>
           ))}
+
+          {/* Ending Spacer - Helps the transition feel cleaner */}
+          <div className="w-[20vw] shrink-0 flex flex-col items-center justify-center opacity-20">
+             <div className="w-[1px] h-32 bg-gradient-to-b from-white to-transparent" />
+             <p className="text-[10px] font-mono uppercase tracking-tighter rotate-90 mt-10 whitespace-nowrap">End of Log</p>
+          </div>
         </div>
       </div>
     </section>
