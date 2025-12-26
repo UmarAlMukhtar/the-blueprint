@@ -8,12 +8,35 @@ import { ExternalLink, Github } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const projectData = [
-  { title: "ZenFocus", category: "Productivity", desc: "Deep work companion.", size: "md:col-span-2", color: "from-blue-500/10" },
-  { title: "Sentience", category: "Design", desc: "Component library.", size: "md:col-span-1", color: "from-purple-500/10" },
-  { title: "Vault-26", category: "Web3", desc: "Asset management.", size: "md:col-span-1", color: "from-orange-500/10" },
-  { title: "Green Ledger", category: "OS", desc: "Sustainability tracker.", size: "md:col-span-2", color: "from-emerald-500/10" },
+  { 
+    title: "NEURAL INDEX", 
+    category: "Computer Vision", 
+    desc: "Advanced facial recognition system designed for rapid image retrieval across massive, unorganized datasets.", 
+    size: "md:col-span-2", 
+    color: "from-blue-500/10" 
+  },
+  { 
+    title: "SYNTAX SHIFT", 
+    category: "Dev Tool", 
+    desc: "A bi-directional sync tool for real-time tutorial-to-code mapping using LLM context windows.", 
+    size: "md:col-span-1", 
+    color: "from-purple-500/10" 
+  },
+  { 
+    title: "VOID ARCHIVE", 
+    category: "Privacy", 
+    desc: "Automated identification and biometric encryption of sensitive PII across distributed cloud storage.", 
+    size: "md:col-span-1", 
+    color: "from-orange-500/10" 
+  },
+  { 
+    title: "OMNI VIBE", 
+    category: "Sensory AI", 
+    desc: "Cross-modal search engine that identifies physical products from audio and ambient visual cues.", 
+    size: "md:col-span-2", 
+    color: "from-emerald-500/10" 
+  },
 ];
-
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -79,10 +102,6 @@ export default function Projects() {
                 <p className="text-[10px] font-mono text-accent uppercase mb-2 tracking-widest">{project.category}</p>
                 <h4 className="text-3xl font-bold mb-2 tracking-tight">{project.title}</h4>
                 <p className="text-gray-400 text-sm max-w-70 mb-6 leading-relaxed">{project.desc}</p>
-                <div className="flex gap-4">
-                  <Github className="w-5 h-5 text-gray-500 hover:text-white transition-colors cursor-pointer" />
-                  <ExternalLink className="w-5 h-5 text-gray-500 hover:text-white transition-colors cursor-pointer" />
-                </div>
               </div>
               <span className="absolute top-8 right-8 text-6xl font-black text-white/3 italic">0{i+1}</span>
             </div>

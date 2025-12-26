@@ -63,3 +63,7 @@ html {
   background: #222;
   border-radius: 10px;
 }
+/* Add this to your globals.css */
+body, a, button, input, select, textarea, [role="button"], .cursor-pointer, *, :hover {
+  cursor: none !important;
+}
