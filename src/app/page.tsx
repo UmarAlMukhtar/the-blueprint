@@ -2,6 +2,7 @@ import Hero from "./components/Hero";
 import Goals from "./components/Goals";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
+import Plans from "./components/Plans";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Hero />
       <div className="relative z-10 bg-background">
         <Goals />
+        <Plans />
         <Projects />
         <Footer />
       </div> 
