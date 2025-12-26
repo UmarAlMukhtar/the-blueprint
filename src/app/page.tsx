@@ -7,11 +7,11 @@ export default function Home() {
   return (
     <main className="relative bg-background">
       <Hero />
-      {/* <div className="relative z-10 bg-background">
+      <div className="relative z-10 bg-background">
         <Goals />
-        <Projects />
-        <Footer />
-      </div> */}
+        {/* <Projects />
+        <Footer /> */}
+      </div> 
     </main>
   );
 }
