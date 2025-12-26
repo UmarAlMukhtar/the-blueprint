@@ -74,7 +74,7 @@ export default function Projects() {
 
   return (
     /* overflow-x-hidden here is the key fix */
-    <section ref={sectionRef} className="relative py-24 w-full overflow-x-hidden bg-background">
+    <section ref={sectionRef} className="relative py-24 w-full overflow-hidden bg-background">
       
       {/* Background text: Fixed with pointer-events-none and select-none */}
       <div className="absolute top-10 left-0 w-full overflow-hidden pointer-events-none select-none">
