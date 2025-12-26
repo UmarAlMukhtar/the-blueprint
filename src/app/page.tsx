@@ -10,7 +10,7 @@ export default function Home() {
       <div className="relative z-10 bg-background">
         <Goals />
         <Projects />
-        {/* <Footer /> */}
+        <Footer />
       </div> 
     </main>
   );
