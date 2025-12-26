@@ -9,8 +9,8 @@ export default function Home() {
       <Hero />
       <div className="relative z-10 bg-background">
         <Goals />
-        {/* <Projects />
-        <Footer /> */}
+        <Projects />
+        {/* <Footer /> */}
       </div> 
     </main>
   );
